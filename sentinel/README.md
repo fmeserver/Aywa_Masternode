@@ -65,11 +65,11 @@ To view debug output, set the `SENTINEL_DEBUG` environment variable to anything 
 
 ## Contributing
 
-Please follow the [AywaCore guidelines for contributing](https://github.com/aywapay/aywa/blob/master/CONTRIBUTING.md).
+Please follow the [https://bitbucket.org/CryptoDev_Space/aywacore/src/master/CONTRIBUTING.md).
 
 Specifically:
 
-* [Contributor Workflow](https://github.com/aywapay/aywa/blob/master/CONTRIBUTING.md#contributor-workflow)
+* [Contributor Workflow](https://bitbucket.org/CryptoDev_Space/aywacore/src/master/CONTRIBUTING.md#contributor-workflow)
 
     To contribute a patch, the workflow is as follows:
 
