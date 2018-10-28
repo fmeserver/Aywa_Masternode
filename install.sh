@@ -9,8 +9,8 @@ COIN_TGZ='https://github.com/GetAywa/AywaCore/releases/download/v0.1.2.0/Aywa-cl
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
 COIN_NAME='aywa'
 COIN_EXPLORER='http://explorer.getaywa.org/'
-COIN_PORT=27771
-RPC_PORT=2777
+COIN_PORT=2777
+RPC_PORT=2778
 SENTINEL_REPO='https://github.com/GetAywa/Aywa_Masternode.git'
 
 NODEIP=$(curl -s4 icanhazip.com)
