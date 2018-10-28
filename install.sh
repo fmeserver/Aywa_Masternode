@@ -121,7 +121,6 @@ rpcpassword=$RPCPASSWORD
 rpcport=$RPC_PORT
 rpcallowip=127.0.0.1
 port=$COIN_PORT
-
 addnode=45.32.36.139
 addnode=149.28.207.48 
 addnode=199.247.4.106
