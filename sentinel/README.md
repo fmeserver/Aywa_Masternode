@@ -30,7 +30,7 @@ Make sure the local Aywa daemon running is at least version 0.1 (010100)
 Clone the Sentinel repo and install Python dependencies.
 
     $ git clone https://github.com/GetAywa/Aywa_Masternode/ && cd Aywa_Masternode/sentinel
-    $ virtualenv ./venv (if locale.Error: unsupported locale setting: export LC_ALL=C)
+    $ virtualenv ./venv #(if locale.Error: unsupported locale setting: export LC_ALL=C)
     $ ./venv/bin/pip install -r requirements.txt
 
 ### 3. Set up Cron
