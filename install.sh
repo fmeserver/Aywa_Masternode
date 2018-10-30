@@ -47,7 +47,7 @@ function install_sentinel() {
   virtualenv ./venv >/dev/null 2>&1
   ./venv/bin/pip install -r requirements.txt >/dev/null 2>&1
   echo  "* * * * * cd ~/.aywacore/sentinel && ./venv/bin/python bin/sentinel.py >> ~/.aywacore/sentinel.log 2>&1" > ~/.aywacore/aywacore.cron
-  crontab ~/.aywacore/a.cron
+  crontab ~/.aywacore/aywacore.cron
   rm $CONFIGFOLDER/$COIN_NAME.cron >/dev/null 2>&1
 }
 
@@ -276,7 +276,7 @@ function important_information() {
  echo -e "Use ${RED}$COIN_CLI masternode status${NC} to check your MN Status."
  echo -e "Use ${RED}$COIN_CLI help${NC} for help."
  if [[ -n $SENTINEL_REPO  ]]; then
- echo -e "${RED}Sentinel${NC} is installed in ${RED}/root/sentinel_$COIN_NAME${NC}"
+ echo -e "${RED}Sentinel${NC} is installed in ${RED}$CONFIGFOLDER/sentinel$COIN_NAME${NC}"
  echo -e "Sentinel logs is: ${RED}$CONFIGFOLDER/sentinel.log${NC}"
  fi
 }
