@@ -43,17 +43,18 @@ In the crontab editor, add the lines below, replacing '/home/YOURUSERNAME/sentin
 
     * * * * * cd /home/YOURUSERNAME/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1
 
-### 4. Test the Configuration
-
-    $ cd /home/YOURUSERNAME/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
-
-If no errors the installation is complete
-
-## Configuration
+### 4. Configuration
 
 An alternative (non-default) path to the `aywa.conf` file can be specified in `sentinel.conf`:
 
     aywa_conf=/path/to/aywa.conf
+
+### 5. Test the Configuration
+
+    $ cd /home/YOURUSERNAME/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
+
+If no errors the installation is completed.
+
 
 ## Troubleshooting
 
