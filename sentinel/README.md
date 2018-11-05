@@ -45,11 +45,9 @@ In the crontab editor, add the lines below, replacing '/home/YOURUSERNAME/sentin
 
 ### 4. Test the Configuration
 
-Test the config by running all tests from the sentinel folder you cloned into
+    $ cd /home/YOURUSERNAME/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
 
-    $ ./venv/bin/py.test ./test
-
-With all tests passing and crontab setup, Sentinel will stay in sync with aywad and the installation is complete
+If no errors the installation is complete
 
 ## Configuration
 
@@ -61,7 +59,7 @@ An alternative (non-default) path to the `aywa.conf` file can be specified in `s
 
 To view debug output, set the `SENTINEL_DEBUG` environment variable to anything non-zero, then run the script manually:
 
-    $ SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
+    $ cd /home/YOURUSERNAME/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
 
 ## Contributing
 
