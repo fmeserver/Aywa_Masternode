@@ -4,7 +4,7 @@ An all-powerful toolset for Aywa.
 
 Sentinel is an autonomous agent for persisting, processing and automating Aywa governance objects and tasks, and for expanded functions in the upcoming Aywa release.
 
-Sentinel is implemented as a Python application that binds to a local version 12 aywad instance on each Aywa Masternode.
+Sentinel is implemented as a Python application that binds to a local aywad instance on each Aywa Masternode.
 
 This guide covers installing Sentinel onto an existing Masternode in Ubuntu 14.04 / 16.04.
 
