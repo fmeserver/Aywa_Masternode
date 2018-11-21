@@ -158,12 +158,11 @@ do
 echo $i
                 mkdir -v -p ~/.masternodes/node$i
                 cd ~/.masternodes/node$i
-                mkdir -v -p ~/.masternodes/node$i/sentinel
-                ln -v -s ~/Aywa_Masternode/sentinel/bin ~/.masternode$
-                ln -v -s ~/Aywa_Masternode/sentinel/share ~/.masterno$
-                ln -v -s ~/Aywa_Masternode/sentinel/lib ~/.masternode$
-                #cp -s ~/Aywa_Masternode/sentinel/test
-                ln -v -s ~/Aywa_Masternode/sentinel/sentinel.conf ~/.$
+                mkdir -v -p ~/.masternodes/node$i/sentinel		
+		ln -v -s ~/Aywa_Masternode/sentinel/bin ~/.masternodes/node$i/sentinel
+		ln -v -s ~/Aywa_Masternode/sentinel/share ~/.masternodes/node$i/sentinel
+		ln -v -s ~/Aywa_Masternode/sentinel/lib ~/.masternodes/node$i/sentinel
+		ln -v -s ~/Aywa_Masternode/sentinel/sentinel.conf ~/.masternodes/node$i/sentinel
 
 done
 }
