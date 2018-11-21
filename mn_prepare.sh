@@ -4,7 +4,7 @@ COIN_NAME='Aywa'
 NEWUSERNAME='aywa'
 EXTERNAL_IP=$(curl -s4 icanhazip.com)
 INTERNAL_IP=$(ifconfig | grep -A 1 $(netstat -i | awk '!/Kernel|Iface|lo/ {print $1," "}') | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)
-MN_COUNT=$1
+export MN_COUNT=1
 
 BLUE="\033[0;34m"
 YELLOW="\033[0;33m"
@@ -131,29 +131,56 @@ echo -e ''
 #echo 'How many MN instances will be installed?'
 #read -e MN_COUNT
 #TODO check value
-for i in `seq 1 $MN_COUNT`;
-        do
-                echo $i
-		mkdir -p ~/.masternodes/node$i
-		cd ~/.masternodes/node$i
-		mkdir -p ~/.masternodes/node$i/sentinel
-		ln -s ~/Aywa_Masternode/sentinel/bin ~/.masternodes/node$i/sentinel
-		ln -s ~/Aywa_Masternode/sentinel/share ~/.masternodes/node$i/sentinel
-		ln -s ~/Aywa_Masternode/sentinel/lib ~/.masternodes/node$i/sentinel
+#echo "$MN_COUNT"
+#echo "$1"
+#for i in `seq 1 $MN_COUNT`;
+#        do
+#while [  $COUNTER -lt $MN_COUNT ]; do
+#		COUNTER=$COUNTER + 1
+#                echo $i
+#		i=$COUNTER
+#		mkdir -v -p ~/.masternodes/node$i
+#		cd ~/.masternodes/node$i
+#		mkdir -v -p ~/.masternodes/node$i/sentinel
+#		ln -v -s ~/Aywa_Masternode/sentinel/bin ~/.masternodes/node$i/sentinel
+#		ln -v -s ~/Aywa_Masternode/sentinel/share ~/.masternodes/node$i/sentinel
+#		ln -v -s ~/Aywa_Masternode/sentinel/lib ~/.masternodes/node$i/sentinel
 		#cp -s ~/Aywa_Masternode/sentinel/test
-		ln -s ~/Aywa_Masternode/sentinel/sentinel.conf ~/.masternodes/node$i/sentinel
-        done
+#		ln -v -s ~/Aywa_Masternode/sentinel/sentinel.conf ~/.masternodes/node$i/sentinel
+#        done
 }
+
+
+function install_sentinel () {
+
+for i in `seq 1 $MN_COUNT` ;
+do
+echo $i
+                mkdir -v -p ~/.masternodes/node$i
+                cd ~/.masternodes/node$i
+                mkdir -v -p ~/.masternodes/node$i/sentinel
+                ln -v -s ~/Aywa_Masternode/sentinel/bin ~/.masternode$
+                ln -v -s ~/Aywa_Masternode/sentinel/share ~/.masterno$
+                ln -v -s ~/Aywa_Masternode/sentinel/lib ~/.masternode$
+                #cp -s ~/Aywa_Masternode/sentinel/test
+                ln -v -s ~/Aywa_Masternode/sentinel/sentinel.conf ~/.$
+
+done
+}
+
 
 
 
 ##### Main #####
 
-clear
+#clear
+MN_COUNT="$1"
+#echo $MN_COUNT
 add_user
 add_swap
 install_dependencies
 su $NEWUSERNAME -c "$(declare -f download_aywacore); download_aywacore"
-echo "$1 $2 $3"
+su $NEWUSERNAME -c "$(declare -f install_sentinel); install_sentinel"
+#echo "$1"
 echo "You dot't need to use root and sudo for Aywa MN management. Logon ssh again with user: $NEWUSERNAME"
 echo 'MN Server need to Reboot to continue MN installation? Are you ready(y/n)' && read x && [[ "$x" == "y" ]] && /sbin/reboot
