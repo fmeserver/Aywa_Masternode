@@ -24,7 +24,8 @@ function add_user(){
 	#echo -e 'Enter Masternode Instances Count (recommended value 1):'
 	#read -e MN_COUNT
 	#export MN_COUNT
-	useradd -m $NEWUSERNAME
+	useradd -m $NEWUSERNAME	
+	passwd $NEWUSERNAME
 	#add it to sudoers
 	usermod -aG sudo $NEWUSERNAME
 	#allow ssh
