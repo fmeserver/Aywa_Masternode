@@ -128,8 +128,8 @@ virtualenv ~/Aywa_Masternode/sentinel/.venv
 
 echo 'Ready to setup MN'
 echo -e ''
-echo 'How many MN instances will be installed?'
-read -e MN_COUNT
+#echo 'How many MN instances will be installed?'
+#read -e MN_COUNT
 #TODO check value
 for i in `seq 1 $MN_COUNT`;
         do
