@@ -4,7 +4,7 @@ COIN_NAME='Aywa'
 NEWUSERNAME='aywa'
 EXTERNAL_IP=$(curl -s4 icanhazip.com)
 INTERNAL_IP=$(ifconfig | grep -A 1 $(netstat -i | awk '!/Kernel|Iface|lo/ {print $1," "}') | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)
-MN_COUNT=1
+MN_COUNT=$1
 
 BLUE="\033[0;34m"
 YELLOW="\033[0;33m"
