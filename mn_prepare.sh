@@ -25,6 +25,7 @@ function add_user(){
 	useradd -m $NEWUSERNAME
 	#-p $NEW_USER_PASS	
 	passwd $NEWUSERNAME
+	echo Added $NEWUSERNAME with pass $NEWUSERNAME
 	#add it to sudoers
 	usermod -aG sudo $NEWUSERNAME
 	#allow ssh
