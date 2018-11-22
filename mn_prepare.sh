@@ -33,14 +33,14 @@ function add_user(){
 	grep -q "AllowUsers $NEWUSERNAME" /etc/ssh/sshd_config
 	if [ $? -ne 0 ]; then
 		echo "Allow ssh for $NEWUSERNAME"
-		echo "AllowUsers $NEWUSERNAME" >> /etc/ssh/sshd_config
+		rem echo "AllowUsers $NEWUSERNAME" >> /etc/ssh/sshd_config
 	else
 		echo 'no changes needed'
 	fi
         grep -q "DenyUsers root" /etc/ssh/sshd_config
         if [ $? -ne 0 ]; then
                 echo "Deny ssh for root"
-                echo "DenyUsers root" >> /etc/ssh/sshd_config
+                rem echo "DenyUsers root" >> /etc/ssh/sshd_config
         else
                 echo 'no changes needed'
         fi
