@@ -20,16 +20,16 @@ MAG='\e[1;35m'
 function add_user(){
 
 	echo -e  'Enter new or exist username (non root) for the MN Installation (ssh will be disabled for root):'
-	read -e NEWUSERNAME
-	#echo -e 'Enter Masternode Instances Count (recommended value 1):'
-	#read -e MN_COUNT
-	#export MN_COUNT
-	useradd -m $NEWUSERNAME	
-	passwd $NEWUSERNAME
+	#read -e NEWUSERNAME
+	useradd -m $NEWUSERNAME -p $NEW_USER_PASS	
+	#passwd $NEWUSERNAME
 	#add it to sudoers
 	usermod -aG sudo $NEWUSERNAME
 	#allow ssh
 	#does AllowUsers section already exists at sshd_config?
+	
+	#grep -crnw '/etc/ssh/sshd_config' -e 'AllowUsers'
+	
 	grep -q "AllowUsers $NEWUSERNAME" /etc/ssh/sshd_config
 	if [ $? -ne 0 ]; then
 		echo "Allow ssh for $NEWUSERNAME"
@@ -126,28 +126,8 @@ export LC_ALL=C
 virtualenv ~/Aywa_Masternode/sentinel/.venv
  ~/Aywa_Masternode/sentinel/.venv/bin/pip install -r ~/Aywa_Masternode/sentinel/requirements.txt
 
-echo 'Ready to setup MN'
+echo 'Ready for setup MN'
 echo -e ''
-#echo 'How many MN instances will be installed?'
-#read -e MN_COUNT
-#TODO check value
-#echo "$MN_COUNT"
-#echo "$1"
-#for i in `seq 1 $MN_COUNT`;
-#        do
-#while [  $COUNTER -lt $MN_COUNT ]; do
-#		COUNTER=$COUNTER + 1
-#                echo $i
-#		i=$COUNTER
-#		mkdir -v -p ~/.masternodes/node$i
-#		cd ~/.masternodes/node$i
-#		mkdir -v -p ~/.masternodes/node$i/sentinel
-#		ln -v -s ~/Aywa_Masternode/sentinel/bin ~/.masternodes/node$i/sentinel
-#		ln -v -s ~/Aywa_Masternode/sentinel/share ~/.masternodes/node$i/sentinel
-#		ln -v -s ~/Aywa_Masternode/sentinel/lib ~/.masternodes/node$i/sentinel
-		#cp -s ~/Aywa_Masternode/sentinel/test
-#		ln -v -s ~/Aywa_Masternode/sentinel/sentinel.conf ~/.masternodes/node$i/sentinel
-#        done
 }
 
 
@@ -174,12 +154,12 @@ done
 
 #clear
 MN_COUNT="$1"
-#echo $MN_COUNT
+MN_USER="$2"
+MN_USER_PASS="$3"
 add_user
 add_swap
 install_dependencies
 su $NEWUSERNAME -c "$(declare -f download_aywacore); download_aywacore"
 su $NEWUSERNAME -c "$(declare -f install_sentinel); install_sentinel"
-#echo "$1"
 echo "You dot't need to use root and sudo for Aywa MN management. Logon ssh again with user: $NEWUSERNAME"
 echo 'MN Server need to Reboot to continue MN installation? Are you ready(y/n)' && read x && [[ "$x" == "y" ]] && /sbin/reboot
