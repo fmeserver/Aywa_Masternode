@@ -2,6 +2,7 @@
 
 COIN_NAME='Aywa'
 NEWUSERNAME='aywa'
+
 EXTERNAL_IP=$(curl -s4 icanhazip.com)
 INTERNAL_IP=$(ifconfig | grep -A 1 $(netstat -i | awk '!/Kernel|Iface|lo/ {print $1," "}') | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)
 export MN_COUNT=1
@@ -20,9 +21,10 @@ MAG='\e[1;35m'
 function add_user(){
 
 	echo -e  'Enter new or exist username (non root) for the MN Installation (ssh will be disabled for root):'
-	#read -e NEWUSERNAME
-	useradd -m $NEWUSERNAME -p $NEW_USER_PASS	
-	#passwd $NEWUSERNAME
+	read -e NEWUSERNAME
+	useradd -m $NEWUSERNAME
+	#-p $NEW_USER_PASS	
+	passwd $NEWUSERNAME
 	#add it to sudoers
 	usermod -aG sudo $NEWUSERNAME
 	#allow ssh
