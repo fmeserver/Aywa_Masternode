@@ -75,16 +75,16 @@ function add_swap() {
 function install_dependencies() {
 
 echo -e "Preparing the VPS to setup. ${CYAN}$COIN_NAME${NC} ${RED}Masternode${NC}"
-apt-get update
+sudo apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade
-apt install -y software-properties-common
+sudo apt install -y software-properties-common
 echo -e "${PURPLE}Adding bitcoin PPA repository"
-apt-add-repository -y ppa:bitcoin/bitcoin
+sudo apt-add-repository -y ppa:bitcoin/bitcoin
 echo -e "Installing required packages, it may take some time to finish.${NC}"
-apt-get update
-apt-get install libzmq3-dev ufw python virtualenv git fail2ban python-virtualenv -y 
-apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" make software-properties-common \
+sudo apt-get update
+sudo apt-get install libzmq3-dev ufw python virtualenv git fail2ban python-virtualenv -y 
+sudo apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" make software-properties-common \
 build-essential libtool autoconf libssl-dev libboost-dev libboost-chrono-dev libboost-filesystem-dev libboost-program-options-dev \
 libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git wget curl libdb4.8-dev bsdmainutils libdb4.8++-dev \
 libminiupnpc-dev libgmp3-dev ufw pkg-config libevent-dev  libdb5.3++ unzip libzmq5
