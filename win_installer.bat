@@ -126,7 +126,7 @@ echo Generated MN key (masternodeprivkey):%MN_GENKEY%
 							  
 rem for /f "tokens=*" %%d in ('""%AYWACORE_CLI_PATH%\aywa-cli.exe" lockunspent false"[{\"txid\":\"%MN_UTXO%\" ","\"vout\":%MASTERNODE_COST%}]""') do set MN_UTXO_LOCKRESULT=%%d
 
-for /f "tokens=*" %%d in ('""%PROGRAMFILES%\AywaCore\daemon\aywa-cli.exe" lockunspent false "[{\"txid\":\"%MN_UTXO%\" ","\"vout\":1}]""') do set MN_UTXO_LOCKRESULT=%%d
+for /f "tokens=*" %%d in ('""%AYWACORE_CLI_PATH%\aywa-cli.exe" lockunspent false "[{\"txid\":\"%MN_UTXO%\" ","\"vout\":1}]""') do set MN_UTXO_LOCKRESULT=%%d
 
 echo UTXO %MN_UTXO% lock result: %MN_UTXO_LOCKRESULT%
 rem pause 0
