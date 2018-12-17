@@ -41,7 +41,7 @@ Set up a crontab entry to call Sentinel every minute:
 
 In the crontab editor, add the lines below, replacing '/home/YOURUSERNAME/sentinel' to the path where you cloned sentinel to:
 
-    * * * * * cd /home/YOURUSERNAME/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1
+    * * * * * cd /home/YOURUSERNAME/Aywa_Masternode/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1
 
 ### 4. Configuration
 
@@ -51,7 +51,7 @@ An alternative (non-default) path to the `aywa.conf` file can be specified in `s
 
 ### 5. Test the Configuration
 
-    $ cd /home/YOURUSERNAME/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
+    $ cd /home/YOURUSERNAME/Aywa_Masternode/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
 
 If no errors the installation is completed.
 
@@ -60,7 +60,7 @@ If no errors the installation is completed.
 
 To view debug output, set the `SENTINEL_DEBUG` environment variable to anything non-zero, then run the script manually:
 
-    $ cd /home/YOURUSERNAME/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
+    $ cd /home/YOURUSERNAME/Aywa_Masternode/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
 
 ## Contributing
 
