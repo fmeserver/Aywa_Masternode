@@ -19,6 +19,8 @@ rem set MN_GENKEY=""
 set MN_USER=user
 set MN_USER_PASS=yourpasshere
 
+
+rem curl -L -O https://the.earth.li/~sgtatham/putty/latest/w32/plink.exe
 "%SSH_PATH%\ssh.exe" %SSH_USER%@%REMOTE_IP% "cd ~ && mkdir -p tmp && cd tmp && rm -f * && wget https://raw.githubusercontent.com/GetAywa/Aywa_Masternode/master/mn_prepare.sh && chmod 777 mn_prepare.sh && sudo -S ./mn_prepare.sh %MN_COUNT% %MN_USER% %MN_USER_PASS%&& rm -f mn_prepare.sh"
 @echo off
 echo "Wait for server reboot then press a key."
