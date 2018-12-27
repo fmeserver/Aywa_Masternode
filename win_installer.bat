@@ -1,6 +1,6 @@
 @echo on
-set REMOTE_IP=127.0.0.1
-set EXTERNAL_IP=127.0.0.1
+set REMOTE_IP=***.***.***.***
+set EXTERNAL_IP=***.***.***.***
 
 set AYWA_DATADIR=%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\AywaCore
 rem SSH_USER - sudo user or root with allowed ssh access used for initial setup
@@ -8,19 +8,19 @@ set TEMP_PATH=%HOMEDRIVE%%HOMEPATH%\tmp
 
 set SSH_PATH=%HOMEDRIVE%%HOMEPATH%\tmp\ssh
 
-set SSH_USER=user
+set SSH_USER=*******
 set SSH_PASS=********
 set AYWACORE_CLI_PATH=%PROGRAMFILES%\AywaCore\daemon
 set /a REMOTE_PORT_START=20771
 set /a REMOTE_RPCPORT_START=30771
 set MN_COUNT=3
-set MN_NAME_PREFIX=MN1__
+set MN_NAME_PREFIX=MN1_
 rem set NEW_ADDRESS=""
 rem set MN_UTXO=""
 rem set MN_GENKEY=""
 
-set MN_USER=aywa
-set MN_USER_PASS=pass%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%
+set MN_USER=********
+set MN_USER_PASS=*******
 
 cd %TEMP_PATH%
 curl -L -O https://the.earth.li/~sgtatham/putty/latest/w32/plink.exe
