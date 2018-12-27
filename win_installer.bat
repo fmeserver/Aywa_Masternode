@@ -1,33 +1,65 @@
 @echo off
-set REMOTE_IP=000.000.000.000
-set EXTERNAL_IP=000.000.000.000
-set SSH_PATH=C:\Program Files\AywaCore\daemon
+set REMOTE_IP=127.0.0.1
+set EXTERNAL_IP=127.0.0.1
 
-set AYWA_DATADIR=C:\Users\user\AppData\Roaming\AywaCore
+set AYWA_DATADIR=%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\AywaCore
 rem SSH_USER - sudo user or root with allowed ssh access used for initial setup
+set TEMP_PATH=C:\Users\user\tmp\
+
+set SSH_PATH=C:\Users\user\tmp\
 
 set SSH_USER=user
-set AYWACORE_CLI_PATH=C:\Program Files\AywaCore\daemon
+set SSH_PASS=*********
+set AYWACORE_CLI_PATH=%PROGRAMFILES%\AywaCore\daemon
 set /a REMOTE_PORT_START=20771
 set /a REMOTE_RPCPORT_START=30771
-set MN_COUNT=10
+set MN_COUNT=3
 set MN_NAME_PREFIX=MN1__
 rem set NEW_ADDRESS=""
 rem set MN_UTXO=""
 rem set MN_GENKEY=""
 
-set MN_USER=user
-set MN_USER_PASS=yourpasshere
+set MN_USER=aywa
+set MN_USER_PASS=1
+
+cd %TEMP_PATH%
+curl -L -O https://the.earth.li/~sgtatham/putty/latest/w32/plink.exe
+
+plink.exe %REMOTE_IP% -l %SSH_USER% -pw %SSH_PASS% "cd ~ && mkdir -p tmp && cd tmp && rm -f * && wget https://raw.githubusercontent.com/GetAywa/Aywa_Masternode/master/mn_prepare.sh && chmod 777 mn_prepare.sh && sudo -S ./mn_prepare.sh %MN_COUNT% %MN_USER% %MN_USER_PASS%&& rm -f mn_prepare.sh"
 
 
-rem curl -L -O https://the.earth.li/~sgtatham/putty/latest/w32/plink.exe
-"%SSH_PATH%\ssh.exe" %SSH_USER%@%REMOTE_IP% "cd ~ && mkdir -p tmp && cd tmp && rm -f * && wget https://raw.githubusercontent.com/GetAywa/Aywa_Masternode/master/mn_prepare.sh && chmod 777 mn_prepare.sh && sudo -S ./mn_prepare.sh %MN_COUNT% %MN_USER% %MN_USER_PASS%&& rm -f mn_prepare.sh"
+curl -L -O https://the.earth.li/~sgtatham/putty/latest/w32/pscp.exe
+
+curl -L -O https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.7.2.0p1-Beta/OpenSSH-Win32.zip
+powershell Expand-Archive -Path OpenSSH-Win32.zip -DestinationPath %TEMP_PATH%
+copy %TEMP_PATH%\OpenSSH-Win32\ssh.exe %SSH_PATH% 
+copy %TEMP_PATH%\OpenSSH-Win32\libcrypto.dll %SSH_PATH% 
+del %TEMP_PATH%\OpenSSH-Win32\ /Q
+rmdir %TEMP_PATH%\OpenSSH-Win32\
+del OpenSSH-Win32.zip
+
+rem curl -L -O http://downloads.sourceforge.net/gnuwin32/openssl-0.9.8h-1-bin.zip
+rem mkdir %TEMP_PATH%\OpenSSL
+rem powershell Expand-Archive -Path openssl-0.9.8h-1-bin.zip -DestinationPath %TEMP_PATH%\OpenSSL
+rem copy %TEMP_PATH%\OpenSSL\openssl.exe %SSH_PATH% 
+rem del %TEMP_PATH%\OpenSSL\ /Q
+rem rmdir %TEMP_PATH%\OpenSSL\
+rem del openssl-0.9.8h-1-bin.zip
+
+
+rem "%SSH_PATH%\ssh.exe" %SSH_USER%@%REMOTE_IP% "cd ~ && mkdir -p tmp && cd tmp && rm -f * && wget https://raw.githubusercontent.com/GetAywa/Aywa_Masternode/master/mn_prepare.sh && chmod 777 mn_prepare.sh && sudo -S ./mn_prepare.sh %MN_COUNT% %MN_USER% %MN_USER_PASS%&& rm -f mn_prepare.sh"
 @echo off
 echo "Wait for server reboot then press a key."
 pause 120
 
 rem ****************generate utxo***********************
 echo "Will be created %MN_COUNT% transaction(s) for masternodes. Press Ctrl+C to break or any key to continue"
+
+del %TEMP_PATH%\conf /Q 
+rmdir %TEMP_PATH%\conf
+mkdir %TEMP_PATH%\conf
+
+%HOMEDRIVE% && cd %TEMP_PATH%\conf
 
 for /f "tokens=*" %%a in ('"%AYWACORE_CLI_PATH%\aywa-cli.exe" getbalance') do set CURRENT_BALANCE=%%a
 
@@ -37,9 +69,7 @@ for /f "tokens=*" %%a in ('"%AYWACORE_CLI_PATH%\aywa-cli.exe" masternode cost') 
 
 echo Current Masternode cost: %MASTERNODE_COST%
 @echo off
-%HOMEDRIVE% && cd %HOMEPATH%
-mkdir .tmp
-cd .tmp
+
 set /a REMOTE_PORT=%REMOTE_PORT_START%
 set /a REMOTE_RPC_PORT=%REMOTE_RPCPORT_START%
 set /a MN_COUNT=%MN_COUNT%
@@ -55,7 +85,7 @@ echo wil be copied conf files to remote server
 pause 0
 FOR /L %%G IN (1,1,%MN_COUNT%) DO (
 echo Copy aywa.conf file %%G
-"%SSH_PATH%\pscp.exe" -pw %MN_USER_PASS% %HOMEDRIVE%%HOMEPATH%\.tmp\%MN_NAME_PREFIX%%%Gaywa.conf %MN_USER%@%REMOTE_IP%:/home/%MN_USER%/.masternodes/node%%G/aywa.conf
+"%SSH_PATH%\pscp.exe" -pw %MN_USER_PASS% %TEMP_PATH%\conf\%MN_NAME_PREFIX%%%Gaywa.conf %MN_USER%@%REMOTE_IP%:/home/%MN_USER%/.masternodes/node%%G/aywa.conf
 rem "%SSH_PATH%\putty.exe" %SSH_USER%@%REMOTE_IP%
 rem set REMOTE_COMMAND=(%REMOTE_COMMAND%)""(crontab -l; echo "@reboot echo "rebooted%%G"";) | crontab - &&""
 )
@@ -67,6 +97,10 @@ rem ********************************************************
 echo Now start 1 (only one - first) wallet ann allow it to sync to the last block
 echo (You can copy blocks from any of your server: rsvnc -avz ~/.aywacore/blocks ~/.aywacore/chainstate user@192.168.1.68:~/.masternodes/node1)
 echo establish ssh connection with you server 
+
+
+plink.exe %REMOTE_IP% -l %SSH_USER% -pw %SSH_PASS% "/home/%MN_USER%/aywacore/bin/aywad -datadir=/home/%MN_USER%/.masternodes/node1 && watch /home/%MN_USER%/aywacore/bin/aywacli -datadir=/home/%MN_USER%/.masternodes/node1 getinfo"
+
 echo Command to start: /home/user/aywacore/bin/aywad -datadir=/home/user/.masternodes/node1
 pause 0
 
@@ -76,7 +110,7 @@ rem here is command
 
 echo Wait full sync. Ctrl+C to continue and copy blockchain data
 
-wait /home/user/aywacore/bin/aywa-cli -datadir=/home/user/.masternodes/node1 getinfo
+watch /home/user/aywacore/bin/aywa-cli -datadir=/home/user/.masternodes/node1 getinfo
 
 pause 0
 for i in {2..%MN_COUNT%}; do echo "Node $i"  && cp -vr /home/user/.masternodes/node1/chainstate /home/user/.masternodes/node1/blocks /home/user/.masternodes/node$i; done
