@@ -3,6 +3,10 @@
 COIN_NAME='Aywa'
 NEWUSERNAME='aywa'
 
+export MN_USER=""
+export MN_USER_PASS=""
+
+
 EXTERNAL_IP=$(curl -s4 icanhazip.com)
 INTERNAL_IP=$(ifconfig | grep -A 1 $(netstat -i | awk '!/Kernel|Iface|lo/ {print $1," "}') | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)
 export MN_COUNT=1
@@ -21,18 +25,20 @@ MAG='\e[1;35m'
 function add_user(){
 
 	echo -e  'Enter new or exist username (non root) for the MN Installation (ssh will be disabled for root):'
-	read -e NEWUSERNAME
-	useradd -m $NEWUSERNAME
-	#-p $NEW_USER_PASS	
-	passwd $NEWUSERNAME
-	echo Added $NEWUSERNAME with pass $NEWUSERNAME
+	#read -e NEWUSERNAME
+	echo -e $MN_USER
+	echo -e $MN_USER_PASS
+	echo -e $INTERNAL_IP
+	echo -e $EXTERNAL_IP
+	useradd -m -p $MN_USER_PASS $MN_USER
+	#-p $NEW_USER_PASS
+	#passwd $NEWUSERNAME
+	#echo Added $NEWUSERNAME with pass $NEWUSERNAME
 	#add it to sudoers
-	usermod -aG sudo $NEWUSERNAME
+	usermod -aG sudo $MN_USER
 	#allow ssh
 	#does AllowUsers section already exists at sshd_config?
-	
 	#grep -crnw '/etc/ssh/sshd_config' -e 'AllowUsers'
-	
 	grep -q "AllowUsers $NEWUSERNAME" /etc/ssh/sshd_config
 	if [ $? -ne 0 ]; then
 		echo "Allow ssh for $NEWUSERNAME"
@@ -141,7 +147,7 @@ do
 echo $i
                 mkdir -v -p ~/.masternodes/node$i
                 cd ~/.masternodes/node$i
-                mkdir -v -p ~/.masternodes/node$i/sentinel		
+                mkdir -v -p ~/.masternodes/node$i/sentinel
 		ln -v -s ~/Aywa_Masternode/sentinel/bin ~/.masternodes/node$i/sentinel
 		ln -v -s ~/Aywa_Masternode/sentinel/share ~/.masternodes/node$i/sentinel
 		ln -v -s ~/Aywa_Masternode/sentinel/lib ~/.masternodes/node$i/sentinel
