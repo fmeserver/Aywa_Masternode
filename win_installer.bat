@@ -1,4 +1,4 @@
-@echo on
+@echo off
 set REMOTE_IP=***.***.***.***
 set EXTERNAL_IP=***.***.***.***
 
