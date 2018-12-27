@@ -170,5 +170,5 @@ add_swap
 install_dependencies
 su $NEWUSERNAME -c "$(declare -f download_aywacore); download_aywacore"
 su $NEWUSERNAME -c "$(declare -f install_sentinel); install_sentinel"
-echo "You dot't need to use root and sudo for Aywa MN management. Logon ssh again with user: $NEWUSERNAME"
-echo 'MN Server need to Reboot to continue MN installation? Are you ready(y/n)' && read x && [[ "$x" == "y" ]] && /sbin/reboot
+#echo "You dot't need to use root and sudo for Aywa MN management. Logon ssh again with user: $NEWUSERNAME"
+#echo 'MN Server need to Reboot to continue MN installation? Are you ready(y/n)' && read x && [[ "$x" == "y" ]] && /sbin/reboot
