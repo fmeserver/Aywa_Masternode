@@ -1,15 +1,15 @@
-@echo off
+@echo on
 set REMOTE_IP=127.0.0.1
 set EXTERNAL_IP=127.0.0.1
 
 set AYWA_DATADIR=%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\AywaCore
 rem SSH_USER - sudo user or root with allowed ssh access used for initial setup
-set TEMP_PATH=C:\Users\user\tmp\
+set TEMP_PATH=%HOMEDRIVE%%HOMEPATH%\tmp
 
-set SSH_PATH=C:\Users\user\tmp\
+set SSH_PATH=%HOMEDRIVE%%HOMEPATH%\tmp\ssh
 
 set SSH_USER=user
-set SSH_PASS=*********
+set SSH_PASS=********
 set AYWACORE_CLI_PATH=%PROGRAMFILES%\AywaCore\daemon
 set /a REMOTE_PORT_START=20771
 set /a REMOTE_RPCPORT_START=30771
@@ -20,7 +20,7 @@ rem set MN_UTXO=""
 rem set MN_GENKEY=""
 
 set MN_USER=aywa
-set MN_USER_PASS=1
+set MN_USER_PASS=pass%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%
 
 cd %TEMP_PATH%
 curl -L -O https://the.earth.li/~sgtatham/putty/latest/w32/plink.exe
@@ -29,9 +29,11 @@ plink.exe %REMOTE_IP% -l %SSH_USER% -pw %SSH_PASS% "cd ~ && mkdir -p tmp && cd t
 
 
 curl -L -O https://the.earth.li/~sgtatham/putty/latest/w32/pscp.exe
+copy pscp.exe %SSH_PATH%
 
 curl -L -O https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.7.2.0p1-Beta/OpenSSH-Win32.zip
 powershell Expand-Archive -Path OpenSSH-Win32.zip -DestinationPath %TEMP_PATH%
+mkdir %SSH_PATH%
 copy %TEMP_PATH%\OpenSSH-Win32\ssh.exe %SSH_PATH% 
 copy %TEMP_PATH%\OpenSSH-Win32\libcrypto.dll %SSH_PATH% 
 del %TEMP_PATH%\OpenSSH-Win32\ /Q
