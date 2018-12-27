@@ -30,12 +30,13 @@ function add_user(){
 	echo -e $MN_USER_PASS
 	echo -e $INTERNAL_IP
 	echo -e $EXTERNAL_IP
-	useradd -m -p $MN_USER_PASS $MN_USER
+	sudo useradd $MN_USER
 	#-p $NEW_USER_PASS
 	#passwd $NEWUSERNAME
 	#echo Added $NEWUSERNAME with pass $NEWUSERNAME
 	#add it to sudoers
-	usermod -aG sudo $MN_USER
+	sudo usermod -p $(openssl passwd $MN_USER_PASS) $MN_USER
+	sudo usermod -aG sudo $MN_USER
 	#allow ssh
 	#does AllowUsers section already exists at sshd_config?
 	#grep -crnw '/etc/ssh/sshd_config' -e 'AllowUsers'
