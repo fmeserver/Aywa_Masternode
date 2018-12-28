@@ -1,36 +1,30 @@
 @echo off
-set REMOTE_IP=***.***.***.***
-set EXTERNAL_IP=***.***.***.***
-
+rem *****************************************************************
+rem ***************USER VALUES***************************************
+rem *****************************************************************
+set REMOTE_IP=000.000.000.000
+set EXTERNAL_IP=000.000.000.000
 set AYWA_DATADIR=%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\AywaCore
-rem SSH_USER - sudo user or root with allowed ssh access used for initial setup
 set TEMP_PATH=%HOMEDRIVE%%HOMEPATH%\tmp
-
 set SSH_PATH=%HOMEDRIVE%%HOMEPATH%\tmp\ssh
-
 set SSH_USER=*******
 set SSH_PASS=********
 set AYWACORE_CLI_PATH=%PROGRAMFILES%\AywaCore\daemon
 set /a REMOTE_PORT_START=20771
 set /a REMOTE_RPCPORT_START=30771
-set MN_COUNT=3
-set MN_NAME_PREFIX=MN1_
-rem set NEW_ADDRESS=""
-rem set MN_UTXO=""
-rem set MN_GENKEY=""
-
-set MN_USER=********
-set MN_USER_PASS=*******
+set MN_COUNT=5
+set MN_NAME_PREFIX=MN1__
+set MN_USER=aywa
+set MN_USER_PASS=********
+rem *****************************************************************
+rem *****************************************************************
+rem *****************************************************************
 
 cd %TEMP_PATH%
 curl -L -O https://the.earth.li/~sgtatham/putty/latest/w32/plink.exe
-
 plink.exe %REMOTE_IP% -l %SSH_USER% -pw %SSH_PASS% "cd ~ && mkdir -p tmp && cd tmp && rm -f * && wget https://raw.githubusercontent.com/GetAywa/Aywa_Masternode/master/mn_prepare.sh && chmod 777 mn_prepare.sh && sudo -S ./mn_prepare.sh %MN_COUNT% %MN_USER% %MN_USER_PASS%&& rm -f mn_prepare.sh"
-
-
 curl -L -O https://the.earth.li/~sgtatham/putty/latest/w32/pscp.exe
 copy pscp.exe %SSH_PATH%
-
 curl -L -O https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.7.2.0p1-Beta/OpenSSH-Win32.zip
 powershell Expand-Archive -Path OpenSSH-Win32.zip -DestinationPath %TEMP_PATH%
 mkdir %SSH_PATH%
@@ -48,30 +42,22 @@ rem del %TEMP_PATH%\OpenSSL\ /Q
 rem rmdir %TEMP_PATH%\OpenSSL\
 rem del openssl-0.9.8h-1-bin.zip
 
-
 rem "%SSH_PATH%\ssh.exe" %SSH_USER%@%REMOTE_IP% "cd ~ && mkdir -p tmp && cd tmp && rm -f * && wget https://raw.githubusercontent.com/GetAywa/Aywa_Masternode/master/mn_prepare.sh && chmod 777 mn_prepare.sh && sudo -S ./mn_prepare.sh %MN_COUNT% %MN_USER% %MN_USER_PASS%&& rm -f mn_prepare.sh"
 @echo off
-echo "Wait for server reboot then press a key."
+rem echo "Wait for server reboot then press a key."
 pause 120
 
 rem ****************generate utxo***********************
 echo "Will be created %MN_COUNT% transaction(s) for masternodes. Press Ctrl+C to break or any key to continue"
-
 del %TEMP_PATH%\conf /Q 
 rmdir %TEMP_PATH%\conf
 mkdir %TEMP_PATH%\conf
-
 %HOMEDRIVE% && cd %TEMP_PATH%\conf
-
 for /f "tokens=*" %%a in ('"%AYWACORE_CLI_PATH%\aywa-cli.exe" getbalance') do set CURRENT_BALANCE=%%a
-
 echo Your current balance is: %CURRENT_BALANCE%
-
 for /f "tokens=*" %%a in ('"%AYWACORE_CLI_PATH%\aywa-cli.exe" masternode cost') do set MASTERNODE_COST=%%a
-
 echo Current Masternode cost: %MASTERNODE_COST%
 @echo off
-
 set /a REMOTE_PORT=%REMOTE_PORT_START%
 set /a REMOTE_RPC_PORT=%REMOTE_RPCPORT_START%
 set /a MN_COUNT=%MN_COUNT%
@@ -121,7 +107,7 @@ rem if node doesnt have public IP
 set /a REMOTE_PORT_END=%REMOTE_PORT_START%+%MN_COUNT%
 #sudo iptables -t nat -I OUTPUT -d %EXTERNAL_IP% -p tcp  -j REDIRECT --to-ports %REMOTE_PORT_START%-%REMOTE_PORT_END%
 rem sudo crontab -e
-rem example: sudo iptables -t nat -I OUTPUT -d 193.218.143.171 -p tcp  -j REDIRECT --to-ports 20771-20870
+rem example: sudo iptables -t nat -I OUTPUT -d %EXTERNAL_IP% -p tcp  -j REDIRECT --to-ports 20771-20870
 
 rem start 10 wallets
 #for i in {1..50}; do echo "Node $i starting"  && /home/user/aywacore/bin/aywad -datadir=/home/user/.masternodes/node$i; done; 
