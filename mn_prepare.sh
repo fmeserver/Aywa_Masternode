@@ -124,8 +124,9 @@ mkdir -p ~/.masternodes
 mkdir -p ~/tmp
 cd tmp
 rm -f aywacore_cli_ubuntu1604.tar.gz
-wget https://github.com/GetAywa/AywaCore/releases/download/v0.1.2.1/aywacore_cli_ubuntu1604.tar.gz
-tar -zxvf aywacore_cli_ubuntu1604.tar.gz
+#wget https://github.com/GetAywa/AywaCore/releases/download/v0.1.2.1/aywacore_cli_ubuntu1604.tar.gz
+wget https://github.com/GetAywa/AywaCore/releases/download/v0.1.2.2/aywacore_linux64.tar.gz
+tar -zxvf aywacore_linux64.tar.gz
 mkdir -p ~/aywacore/bin
 mv ~/tmp/aywad ~/aywacore/bin
 mv ~/tmp/aywa-cli ~/aywacore/bin
